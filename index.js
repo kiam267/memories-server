@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import serverlesss from 'serverless-http';
 
 // Route imports
 import postsRoutes from './routes/posts-routes.js';
@@ -20,20 +21,27 @@ app.use(
 );
 app.use(cors());
 
-
 // Route handlers
 app.use('/posts', postsRoutes);
 app.use('/users', userRoutes);
+app.get('/', function (req, res) {
+  req.json({
+    message: 'API is running',
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.DB_URL)
   .then(() =>
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    })
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on port ${PORT}`);
+    // })
+    console.log('Server running')
   )
   .catch(err => {
     console.log(err);
   });
+  
+export const handelr = serverlesss(app);
