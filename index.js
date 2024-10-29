@@ -1,9 +1,9 @@
+import serverless from 'serverless-http';
 import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import serverlesss from 'serverless-http';
 
 // Route imports
 import postsRoutes from './routes/posts-routes.js';
@@ -43,5 +43,5 @@ mongoose
   .catch(err => {
     console.log(err);
   });
-  
-export const handelr = serverlesss(app);
+
+export const handler = serverless(app);
