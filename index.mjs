@@ -1,19 +1,19 @@
 import serverless from 'serverless-http';
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import cors from 'cors';
 
 // // Route imports
-// import postsRoutes from './routes/posts-routes.js';
-// import userRoutes from './routes/user-routes.js';
+import postsRoutes from './routes/posts-routes.js';
+import userRoutes from './routes/user-routes.js';
 
 const app = express();
 
-// dotenv.config({
-//   path: '.env',
-// });
+dotenv.config({
+  path: '.env',
+});
 app.use(cors());
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(
@@ -22,27 +22,25 @@ app.use(
 
 
 // // Route handlers
-// app.use('/posts', postsRoutes);
-// app.use('/users', userRoutes);
-app.get('/', function (req, res) {
-  res.json({
-    message: 'API is running',
-  });
+app.use('/posts', postsRoutes);
+app.use('/users', userRoutes);
+app.get('/hello', function (req, res) {
+  res.status(200).json({ message: 'Hello, World!' });
 });
 
 // // const PORT = process.env.PORT || 5000;
 
-// mongoose
-//   .connect(process.env.DB_URL)
-//   .then(() =>
-//     // app.listen(PORT, () => {
-//     //   console.log(`Server running on port ${PORT}`);
-//     // })
-//     console.log('Server running')
-//   )
-//   .catch(err => {
-//     console.log(err);
-//   });
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() =>
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on port ${PORT}`);
+    // })
+    console.log('Server running')
+  )
+  .catch(err => {
+    console.log(err);
+  });
 
 export const handler = serverless(app);
 
