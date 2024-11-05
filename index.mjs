@@ -44,14 +44,14 @@
 
 // export const handler = serverless(app);
 
-// // export const handler = async event => {
-// //   // TODO implement
-// //   const response = {
-// //     statusCode: 200,
-// //     body: JSON.stringify('Hello from Lambda!'),
-// //   };
-// //   return response;
-// // };
+export const handler = async event => {
+  // TODO implement
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify('Hello from Lambda!'),
+  };
+  return response;
+};
 
 
 import express from 'express';
@@ -79,4 +79,4 @@ app.use((req, res) => {
 });
 
 // Export the app handler for serverless
-export const handler = serverless(app);
+// export const handler = serverless(app);
