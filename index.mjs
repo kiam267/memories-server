@@ -25,7 +25,7 @@ app.use(
 // app.use('/posts', postsRoutes);
 // app.use('/users', userRoutes);
 app.get('/', function (req, res) {
-  req.json({
+  res.json({
     message: 'API is running',
   });
 });
