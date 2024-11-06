@@ -24,6 +24,9 @@ app.use(
 // Route handlers
 app.use('/posts', postsRoutes);
 app.use('/users', userRoutes);
+app.get('/memorice', (req, res) => {
+  res.status(200).json({ message: 'Hello, World!' });
+});
 app.get('/hello', (req, res) => {
   res.status(200).json({ message: 'Hello, World!' });
 });
