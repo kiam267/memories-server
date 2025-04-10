@@ -26,6 +26,6 @@ dist-ssr
 
 # block env file
 
-# .env
+.env
 
 
