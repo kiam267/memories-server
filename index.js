@@ -1,47 +1,51 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import cors from 'cors';
+// Load environment variables
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' }); // ✅ Good practice to keep it early
 
-// Route imports
-import postsRoutes from './routes/posts-routes.js';
-import userRoutes from './routes/user-routes.js';
+// Import dependencies
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
+// Import routes
+const postsRoutes = require('./routes/posts-routes');
+const userRoutes = require('./routes/user-routes');
+
+// App initialization
 const app = express();
 
-// Load environment variables from .env file
-dotenv.config({ path: '.env' });
-
-// Middleware setup
-app.use(cors());
+// Middleware
+app.use(cors()); // ✅ Good for API accessibility
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(
   bodyParser.urlencoded({ limit: '30mb', extended: true })
 );
 
-// Route handlers
+// Routes
 app.use('/posts', postsRoutes);
 app.use('/users', userRoutes);
+
+// Test Routes
 app.get('/memorice', (req, res) => {
   res.status(200).json({ message: 'Hello, World!' });
 });
+
 app.get('/hello', (req, res) => {
   res.status(200).json({ message: 'Hello, World!' });
 });
 
-// Connect to MongoDB
+// MongoDB connection and server start
 mongoose
   .connect(process.env.MONGODB_URL)
-  .then(() =>
-    console.log('Database connected successfully')
-  )
+  .then(() => {
+    console.log('✅ Database connected successfully');
+    app.listen(5000, () => {
+      console.log(
+        '🚀 Server running on http://localhost:5000'
+      );
+    });
+  })
   .catch(err =>
-    console.error('Database connection error:', err)
+    console.error('❌ Database connection error:', err)
   );
-
-app.listen(process.env.PORT, () => {
-  console.log(
-    `Server is running on port http://localhost:${process.env.PORT}`
-  );
-});

@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import PostMessage from '../models/postMessage.js';
+const  mongoose = require('mongoose');
+const PostMessage = require('../models/postMessage');
 
-export const getPosts = async (req, res, next) => {
+ const getPosts = async (req, res, next) => {
   req.headers = {
     ...req.headers,
     'max-http-header-size': '16384',
@@ -17,7 +17,7 @@ export const getPosts = async (req, res, next) => {
 
 //https://www.youtube.com/watch?v=VsUzmlZfYNg
 
-export const createPosts = async (req, res, next) => {
+ const createPosts = async (req, res, next) => {
   const body = req.body;
 
   const newPost = new PostMessage(body);
@@ -32,7 +32,7 @@ export const createPosts = async (req, res, next) => {
   }
 };
 
-export const updatePost = async (req, res) => {
+ const updatePost = async (req, res) => {
   const { id: _id } = req.params;
   const post = req.body;
 
@@ -50,7 +50,7 @@ export const updatePost = async (req, res) => {
   res.status(200).json(UpatePost);
 };
 
-export const deletePost = async (req, res) => {
+const deletePost = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -63,7 +63,7 @@ export const deletePost = async (req, res) => {
     .json({ message: 'Post Deleted successfully' });
 };
 
-export const likePost = async (req, res) => {
+const likePost = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!req.user?._id) {
@@ -87,4 +87,12 @@ export const likePost = async (req, res) => {
   );
 
   res.status(200).json(updatePost);
+};
+
+module.exports = {
+  getPosts,
+  createPosts,
+  updatePost,
+  deletePost,
+  likePost,
 };

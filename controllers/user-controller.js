@@ -1,9 +1,9 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
-import User from '../models/user.js';
-
-export const signin = async (req, res) => {
+// ====== SIGN IN CONTROLLER ======
+const signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -32,20 +32,17 @@ export const signin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    res.json({ user: existingUser, token });
-
-    // Save the hashed password in the database
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // existingUser.password = hashedPassword;
-    // await existingUser.save();
+    res.status(200).json({ user: existingUser, token });
   } catch (err) {
+    console.error('Signin error:', err.message);
     res
       .status(500)
-      .json({ message: 'Someting went worng ' });
+      .json({ message: 'Something went wrong' });
   }
 };
 
-export const signup = async (req, res) => {
+// ====== SIGN UP CONTROLLER ======
+const signup = async (req, res) => {
   const {
     firstName,
     lastName,
@@ -53,6 +50,7 @@ export const signup = async (req, res) => {
     password,
     confirmPassword,
   } = req.body;
+
   try {
     const existingUser = await User.findOne({ email });
 
@@ -77,6 +75,7 @@ export const signup = async (req, res) => {
     });
 
     await newUser.save();
+
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email },
       process.env.JWT_SECRET,
@@ -91,9 +90,15 @@ export const signup = async (req, res) => {
       },
       token,
     });
-  } catch (error) {
+  } catch (err) {
+    console.error('Signup error:', err.message);
     res
       .status(500)
-      .json({ message: 'Someting went worng ' });
+      .json({ message: 'Something went wrong' });
   }
+};
+
+module.exports = {
+  signin,
+  signup,
 };
