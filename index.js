@@ -1,6 +1,6 @@
 // Load environment variables
 const dotenv = require('dotenv');
-dotenv.config({ path: '.env' }); // ✅ Good practice to keep it early
+dotenv.config({ path: '.env' });
 
 // Import dependencies
 const express = require('express');
@@ -16,7 +16,7 @@ const userRoutes = require('./routes/user-routes');
 const app = express();
 
 // Middleware
-app.use(cors()); // ✅ Good for API accessibility
+app.use(cors()); 
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(
   bodyParser.urlencoded({ limit: '30mb', extended: true })
